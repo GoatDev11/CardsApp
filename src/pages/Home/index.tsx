@@ -34,7 +34,7 @@ export const HomePage: React.FC<{}> = () => {
       });
   }, [page]);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
