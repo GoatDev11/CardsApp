@@ -1,41 +1,52 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.
 version: 2.1
-orbs:
-  node: circleci/node@5
+
 jobs:
-  build-node:
-    # Build node project
-    executor: node/default
+  install-dependencies:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:16.13.2
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run:
-          command: npm run build
+          name: Update or install NPM
+          command: 'sudo npm install -g npm'
+      - restore_cache:
+          key: app-{{ checksum "package-lock.json" }}
       - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
+          name: Install Dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  vercel-deploy:
+    build:
+    working_directory: ~/repo
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:16.13.2
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Install CLI Vercel
+          command: 'sudo npm install -g vercel'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Vercel Prod Deploy
+          command: vercel --prod --build-env REACT_APP_BASEURL=https://rickandmortyapi.com/api/ --name $VERCEL_PROJECT_NAME --scope $VERCER_SCOPE --token=$VERCEL_TOKEN --yes
 workflows:
-  build:
+  version: 2
+  deploy-reactapp:
     jobs:
-      - build-node
-    # - deploy:
-    #     requires:
-    #       - build-node
+      - install-dependencies:
+          filters:
+            branches:
+              only:
+                - develop
+      - vercel-deploy:
+          requires:
+            - install-dependencies
+          filters:
+            branches:
+              only:
+                - develop
