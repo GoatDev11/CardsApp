@@ -42,11 +42,11 @@ workflows:
           filters:
             branches:
               only:
-                - develop
+                - main
       - vercel-deploy:
           requires:
             - install-dependencies
           filters:
             branches:
               only:
-                - develop
+                - main
