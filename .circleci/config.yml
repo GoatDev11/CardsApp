@@ -7,9 +7,6 @@ jobs:
       - image: cimg/node:16.13.2
     steps:
       - checkout
-      - run:
-          name: Update or install NPM
-          command: 'sudo npm install -g npm'
       - restore_cache:
           key: app-{{ checksum "package-lock.json" }}
       - run:
