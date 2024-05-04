@@ -36,7 +36,7 @@ jobs:
           command: vercel --prod --build-env REACT_APP_BASEURL=https://rickandmortyapi.com/api/ --name $VERCEL_PROJECT_NAME --scope $VERCER_SCOPE --token=$VERCEL_TOKEN --yes
 workflows:
   version: 2
-  deploy-reactapp:
+  deploy-cardapp:
     jobs:
       - install-dependencies:
           filters:
