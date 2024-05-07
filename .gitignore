@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#firebase config
+.firebase/
+
+#enviroment variables file
+.env
+

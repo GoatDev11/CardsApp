@@ -1,10 +1,8 @@
 import { Box, Button, Container, Grid, Paper, TextField, Typography } from '@mui/material'
-import { useNotification } from '../../context/notification.context'
 import { LoginValidate } from '../../utils/validateForm'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { login } from '../../redux/slices/auth.slice'
 import { authThunk } from '../../redux/thunks/auth.thunk'
 
 type LoginType = {
@@ -16,7 +14,6 @@ const LoginPage: React.FC<{}> = () => {
   const navigate = useNavigate()
   const { isAuth } = useAppSelector((state) => state.authReducer)
 
-  const { getSuccess } = useNotification();
   const formik = useFormik<LoginType>({
     initialValues: {
       username: '',

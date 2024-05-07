@@ -54,13 +54,13 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(authThunk.pending, (state) => {
       return (state = {
-        ...initialState,
+        ...state,
         loading: true,
       });
     });
     builder.addCase(authThunk.fulfilled, (state, action) => {
       return (state = {
-        ...initialState,
+        ...state,
         loading: false,
         success: true,
         accessToken: action.payload.accessToken,
@@ -71,7 +71,7 @@ export const authSlice = createSlice({
     });
     builder.addCase(authThunk.rejected, (state, action) => {
       return (state = {
-        ...initialState,
+        ...state,
         error: action.payload,
       });
     });

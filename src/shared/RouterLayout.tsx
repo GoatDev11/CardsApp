@@ -5,7 +5,7 @@ import { useAppSelector } from '../redux/hooks'
 import { useCookies } from 'react-cookie'
 
 export const RouterLayout: React.FC<{}> = () => {
-  const [cookies, setCookie, removeCookie] = useCookies()
+  const [, setCookie, removeCookie] = useCookies()
   const { isAuth, isExpired, accessToken } = useAppSelector(
     (state) => state.authReducer
   )
